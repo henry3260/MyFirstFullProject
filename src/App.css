@@ -23,7 +23,7 @@ form {
   margin-top: 20px;
 }
 
-form input[type ="datetime-local"] {
+form input[type="datetime-local"] {
   color: #777;
 }
 
@@ -53,7 +53,7 @@ form button {
 }
 
 div.transactions {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 
@@ -61,12 +61,36 @@ div.transaction {
   display: flex;
   padding: 5px 0;
   justify-content: space-between;
+  border-top: 1px solid #30313d;
+}
+
+/*消除第一個transaction的top line*/
+div.transaction:first-child {
+  border-top: 0;
 }
 
 div.transaction div.name {
-  font-size: .9rem;
+  font-size: 1rem;
 }
 
-div.transaction div.description{
-font-size: .7rem;
+div.transaction div.description {
+  font-size: .7rem;
+  color: #888;
+}
+
+div.right {
+  text-align: right;
+}
+
+div.price.green {
+  color: #1c1;
+}
+
+div.price.red {
+  color: red;
+}
+
+div.transaction div.datetime {
+  font-size: .7rem;
+  color: #888;
 }

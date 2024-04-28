@@ -64,7 +64,7 @@ div.transaction {
 }
 
 div.transaction div.name {
-  font-size: 1rem;
+  font-size: .9rem;
 }
 
 div.transaction div.description{

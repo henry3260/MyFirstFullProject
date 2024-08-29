@@ -1,16 +1,59 @@
 import './App.css';
+import { useState } from 'react';
 
 function App() {
+  const [name, setName] = useState("");
+  const [datetime, setDatetime] = useState("");
+  const [description, setDescription] = useState("");
+
+  function addNewTransaction(event) {
+    event.preventDefault();
+    const url = process.env.REACT_APP_API_URL + '/transaction';
+    const price = name.split(' ')[0];
+    fetch(url, {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({ price, name: name.substring(price.length + 1), description, datetime })
+    })
+      .then(response => {
+        response.json().then(json => {
+          setName('');
+          setDatetime('');
+          setDescription('');
+          console.log('result', json);
+        });
+      });
+  }
+
+
+  function handleChangeName(event) {
+    setName(event.target.value);
+  }
+  function handleChangeDatetime(event) {
+    setDatetime(event.target.value);
+  }
+  function handleChangeDescription(event) {
+    setDescription(event.target.value);
+  }
+
   return (
     <main>
       <h1>$400<span>.00</span></h1>
-      <form>
+      <form onSubmit={addNewTransaction}>
         <div className="basic">
-            <input type="text" placeholder={'+200 new samsung TV'} />
-            <input type="datetime-local" />
+          <input type="text"
+            value={name}
+            onChange={handleChangeName}
+            placeholder={'+200 new samsung TV'} />
+          <input type="datetime-local"
+            value={datetime}
+            onChange={handleChangeDatetime} />
         </div>
         <div className="description">
-          <input type="text" placeholder={'description'}></input>
+          <input type="text"
+            value={description}
+            onChange={handleChangeDescription}
+            placeholder={'description'}></input>
         </div>
         <button type="submit">Add new transaction</button>
       </form>

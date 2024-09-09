@@ -15,9 +15,15 @@ app.get('/api/test', (req, res) => {
 
 app.post('/api/transaction', async (req, res) => {
     await mongoose.connect(process.env.MONGO_URL);
-    const { name, description, datetime, price} = req.body;
-    const transaction = await Transaction.create({ name, description, datetime, price});
+    const { name, description, datetime, price } = req.body;
+    const transaction = await Transaction.create({ name, description, datetime, price });
     res.json(transaction);
+}); //接收client發送的交易數據，把數據存到資料庫
+
+app.get('/api/transactions', async (req, res) => {
+    await mongoose.connect(process.env.MONGO_URL);
+    const transactions = await Transaction.find(); //從資料庫獲取所有交易紀錄
+    res.json(transactions); //返回所有交易紀錄
 });
 
 // 监听端口4040

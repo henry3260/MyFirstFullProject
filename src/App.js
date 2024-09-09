@@ -1,10 +1,21 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function App() {
   const [name, setName] = useState("");
   const [datetime, setDatetime] = useState("");
   const [description, setDescription] = useState("");
+  const [transactions, setTransactions] = useState([]);
+
+  useEffect(() => {
+    getTransactions().then(setTransactions);
+  }, []);
+
+  async function getTransactions() {
+    const url = process.env.REACT_APP_API_URL + '/transactions';
+    const response = await fetch(url);
+    return await response.json();
+  }
 
   function addNewTransaction(event) {
     event.preventDefault();
@@ -58,41 +69,38 @@ function App() {
         <button type="submit">Add new transaction</button>
       </form>
       <div className="transactions">
-        <div className="transaction">
-          <div className="left">
-            <div className="name">New samsung TV</div>
-            <div className="description">it was time for new tv</div>
+        {transactions.length > 0 && transactions.map(transaction => (
+          <div className="transaction">
+            <div className="left">
+              <div className="name">{transaction.name}</div>
+              <div className="description">{transaction.description}</div>
+            </div>
+            <div className="right">
+              <div className={"price " + (transaction.price < 0 ? 'red' : 'green')}>
+                {transaction.price}
+              </div>
+              <div className="datetime">{transaction.datetime}</div>
+            </div>
           </div>
-          <div className="right">
-            <div className="price red">-$500</div>
-            <div className="datetime">2022-12-18 15:45</div>
-          </div>
-        </div>
+        ))}
       </div>
-      <div className="transactions">
-        <div className="transaction">
-          <div className="left">
-            <div className="name">new website</div>
-            <div className="description">it was time for new tv</div>
-          </div>
-          <div className="right">
-            <div className="price green">+$500</div>
-            <div className="datetime">2022-12-18 15:45</div>
-          </div>
-        </div>
-      </div>
-      <div className="transactions">
-        <div className="transaction">
-          <div className="left">
-            <div className="name">Iphone</div>
-            <div className="description">it was time for new tv</div>
-          </div>
-          <div className="right">
-            <div className="price red">-$900</div>
-            <div className="datetime">2022-12-18 15:45</div>
-          </div>
-        </div>
-      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </main>
   );
 }
